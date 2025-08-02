@@ -1,53 +1,75 @@
-import { useState } from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Typography, Button, Container, Box, Grid, IconButton, Drawer, List, ListItem, ListItemText, TextField, useMediaQuery } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: { main: '#43ea7c' },
+    secondary: { main: '#2e8b57' },
+  },
+  typography: {
+    fontFamily: 'Segoe UI, Arial, sans-serif',
+  },
+});
 
 function HeroBanner({ onDonateClick }) {
   return (
-    <section className="hero">
-      <h1>Empowering Girl Children & Supporting Survivors</h1>
-      <p>
+    <Box sx={{ bgcolor: 'primary.main', color: '#fff', py: 6, borderRadius: '0 0 24px 24px', textAlign: 'center', boxShadow: 3, mb: 3 }}>
+      <Typography variant="h3" fontWeight={700} mb={2}>
+        Empowering Girl Children & Supporting Survivors
+      </Typography>
+      <Typography variant="h6" mb={3}>
         Our NGO is dedicated to providing hope, support, and opportunities for girl children and victims of rape incidents. Join us in making a difference.
-      </p>
-      <button className="donate-btn" onClick={onDonateClick}>Donate Now</button>
-    </section>
+      </Typography>
+      <Button variant="contained" color="secondary" size="large" onClick={onDonateClick}>
+        Donate Now
+      </Button>
+    </Box>
   );
 }
 
 function Home() {
   return (
-    <section className="home">
-      <h2>About Us</h2>
-      <p>
+    <Box sx={{ bgcolor: '#eafbe7', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3 }}>
+      <Typography variant="h4" mb={2}>About Us</Typography>
+      <Typography>
         We are a non-profit organization committed to the welfare, education, and rehabilitation of girl children and survivors of sexual violence. Our mission is to create a safe, nurturing environment and empower them to lead fulfilling lives.
-      </p>
-    </section>
+      </Typography>
+    </Box>
   );
 }
 
 function Gallery() {
   return (
-    <section className="gallery">
-      <h2>Gallery</h2>
-      <div className="gallery-grid">
-        <img src="https://placehold.co/300x200?text=Image+1" alt="Gallery 1" />
-        <img src="https://placehold.co/300x200?text=Image+2" alt="Gallery 2" />
-        <video width="300" controls>
-          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </section>
+    <Box sx={{ bgcolor: '#fff', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3 }}>
+      <Typography variant="h4" mb={2}>Gallery</Typography>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12} sm={6} md={4}>
+          <Box component="img" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" alt="Smiling Girls Group" sx={{ width: '100%', borderRadius: 2, boxShadow: 1, display: 'block' }} loading="lazy" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Box component="img" src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80" alt="Happy Girl Smiling" sx={{ width: '100%', borderRadius: 2, boxShadow: 1, display: 'block' }} loading="lazy" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Box component="video" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" sx={{ width: '100%', borderRadius: 2, boxShadow: 1, display: 'block' }}>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+            Sorry, your browser does not support embedded videos.
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
 function Contact() {
   return (
-    <section className="contact">
-      <h2>Contact Us</h2>
-      <p>Email: support@ngoforgirls.org</p>
-      <p>Phone: +91-12345-67890</p>
-      <p>Address: 123 Hope Street, City, Country</p>
-    </section>
+    <Box sx={{ bgcolor: '#eafbe7', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3 }}>
+      <Typography variant="h4" mb={2}>Contact Us</Typography>
+      <Typography>Email: support@ngoforgirls.org</Typography>
+      <Typography>Phone: +91-12345-67890</Typography>
+      <Typography>Address: 123 Hope Street, City, Country</Typography>
+    </Box>
   );
 }
 
@@ -65,21 +87,21 @@ function DonationForm() {
   }
 
   return (
-    <section className="donation">
-      <h2>Make a Donation</h2>
+    <Box sx={{ bgcolor: '#fff', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3, maxWidth: 400, mx: 'auto' }}>
+      <Typography variant="h4" mb={2}>Make a Donation</Typography>
       {submitted ? (
-        <div className="thank-you">Thank you for your support, {form.name}!</div>
+        <Typography color="primary" fontWeight={600} textAlign="center">Thank you for your support, {form.name}!</Typography>
       ) : (
-        <form onSubmit={handleSubmit} className="donation-form">
-          <input name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
-          <input name="address" placeholder="Address" value={form.address} onChange={handleChange} required />
-          <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} required />
-          <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-          <input name="amount" type="number" placeholder="Amount" value={form.amount} onChange={handleChange} required min="1" />
-          <button type="submit">Donate</button>
-        </form>
+        <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
+          <TextField name="name" label="Name" value={form.name} onChange={handleChange} required fullWidth />
+          <TextField name="address" label="Address" value={form.address} onChange={handleChange} required fullWidth />
+          <TextField name="phone" label="Phone" value={form.phone} onChange={handleChange} required fullWidth />
+          <TextField name="email" label="Email" type="email" value={form.email} onChange={handleChange} required fullWidth />
+          <TextField name="amount" label="Amount" type="number" value={form.amount} onChange={handleChange} required fullWidth inputProps={{ min: 1 }} />
+          <Button type="submit" variant="contained" color="primary">Donate</Button>
+        </Box>
       )}
-    </section>
+    </Box>
   );
 }
 
@@ -97,40 +119,77 @@ function LoginForm({ onBack }) {
   }
 
   return (
-    <section className="login">
-      <h2>User Login</h2>
+    <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, maxWidth: 400, mx: 'auto', my: 6 }}>
+      <Typography variant="h4" mb={2}>User Login</Typography>
       {submitted ? (
-        <div className="thank-you">Login successful!</div>
+        <Typography color="primary" fontWeight={600} textAlign="center">Login successful!</Typography>
       ) : (
-        <form onSubmit={handleSubmit} className="login-form">
-          <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-          <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-          <div className="button-row">
-            <button type="submit">Login</button>
-            <button type="button" onClick={onBack}>Back</button>
-          </div>
-        </form>
+        <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
+          <TextField name="email" label="Email" type="email" value={form.email} onChange={handleChange} required fullWidth />
+          <TextField name="password" label="Password" type="password" value={form.password} onChange={handleChange} required fullWidth />
+          <Box display="flex" gap={2} justifyContent="center">
+            <Button type="submit" variant="contained" color="primary">Login</Button>
+            <Button type="button" variant="outlined" color="secondary" onClick={onBack}>Back</Button>
+          </Box>
+        </Box>
       )}
-    </section>
-  );
-}
-
-function Navbar({ setPage }) {
-  return (
-    <nav className="navbar">
-      <button onClick={() => setPage('home')}>Home</button>
-      <button onClick={() => setPage('gallery')}>Gallery</button>
-      <button onClick={() => setPage('contact')}>Contact</button>
-      <button onClick={() => setPage('donate')}>Donate</button>
-    </nav>
+    </Box>
   );
 }
 
 function Footer() {
   return (
-    <footer>
+    <Box component="footer" sx={{ bgcolor: '#fff', color: 'secondary.main', textAlign: 'center', py: 2, mt: 4, borderRadius: 2, boxShadow: 1 }}>
       The NGO Foundation © 2025 &nbsp;|&nbsp; Empowering Girl Children & Survivors
-    </footer>
+    </Box>
+  );
+}
+
+function ResponsiveNavbar({ setPage, onLogin }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const navItems = [
+    { label: 'Home', page: 'home' },
+    { label: 'Gallery', page: 'gallery' },
+    { label: 'Contact', page: 'contact' },
+    { label: 'Donate', page: 'donate' },
+  ];
+
+  return (
+    <AppBar position="static" color="inherit" elevation={1} sx={{ mb: 2 }}>
+      <Toolbar>
+        {isMobile && (
+          <IconButton edge="start" color="primary" aria-label="menu" onClick={() => setDrawerOpen(true)}>
+            <MenuIcon />
+          </IconButton>
+        )}
+        <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700, color: 'primary.main' }}>
+          Akshay Kalash
+        </Typography>
+        {!isMobile && navItems.map(item => (
+          <Button key={item.page} color="primary" onClick={() => setPage(item.page)} sx={{ mx: 1 }}>
+            {item.label}
+          </Button>
+        ))}
+        <Button color="secondary" variant="contained" onClick={onLogin} sx={{ ml: 2 }}>
+          Login
+        </Button>
+      </Toolbar>
+      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box sx={{ width: 220 }} role="presentation" onClick={() => setDrawerOpen(false)}>
+          <List>
+            {navItems.map(item => (
+              <ListItem button key={item.page} onClick={() => setPage(item.page)}>
+                <ListItemText primary={item.label} />
+              </ListItem>
+            ))}
+            <ListItem button onClick={onLogin}>
+              <ListItemText primary="Login" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+    </AppBar>
   );
 }
 
@@ -139,34 +198,23 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
 
   return (
-    <div className="app">
-      {!showLogin && (
-        <header style={{position: 'relative'}}>
-          <button
-            className="login-btn"
-            style={{position: 'absolute', top: 20, right: 30}}
-            onClick={() => { setShowLogin(true); }}
-          >
-            Login
-          </button>
-        </header>
-      )}
-      {showLogin ? (
-        <div className="login-bg">
+    <ThemeProvider theme={theme}>
+      <Container maxWidth={false} disableGutters sx={{ width: '100vw', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', px: { xs: 0, md: 0 } }}>
+        <ResponsiveNavbar setPage={setPage} onLogin={() => setShowLogin(true)} />
+        {showLogin ? (
           <LoginForm onBack={() => setShowLogin(false)} />
-        </div>
-      ) : (
-        <>
-          <HeroBanner onDonateClick={() => setPage('donate')} />
-          <Navbar setPage={setPage} />
-          {page === 'home' && <Home />}
-          {page === 'gallery' && <Gallery />}
-          {page === 'contact' && <Contact />}
-          {page === 'donate' && <DonationForm />}
-        </>
-      )}
-      <Footer />
-    </div>
+        ) : (
+          <>
+            <HeroBanner onDonateClick={() => setPage('donate')} />
+            {page === 'home' && <Home />}
+            {page === 'gallery' && <Gallery />}
+            {page === 'contact' && <Contact />}
+            {page === 'donate' && <DonationForm />}
+          </>
+        )}
+        <Footer />
+      </Container>
+    </ThemeProvider>
   );
 }
 
