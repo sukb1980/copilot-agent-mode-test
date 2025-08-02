@@ -111,6 +111,19 @@ function DonationForm() {
 function LoginForm({ onBack, onLogin }) {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const emailRef = React.useRef(null);
+
+  React.useEffect(() => {
+    // Blur any active element before focusing email
+    if (document.activeElement && typeof document.activeElement.blur === 'function') {
+      document.activeElement.blur();
+    }
+    setTimeout(() => {
+      if (emailRef.current) {
+        emailRef.current.focus();
+      }
+    }, 100);
+  }, []);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -132,7 +145,16 @@ function LoginForm({ onBack, onLogin }) {
     <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, maxWidth: 400, mx: 'auto', my: 6 }}>
       <Typography variant="h4" mb={2}>User Login</Typography>
       <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
-        <TextField name="email" label="Email" type="email" value={form.email} onChange={handleChange} required fullWidth />
+        <TextField
+          name="email"
+          label="Email"
+          type="email"
+          value={form.email}
+          onChange={handleChange}
+          required
+          fullWidth
+          inputRef={emailRef}
+        />
         <TextField name="password" label="Password" type="password" value={form.password} onChange={handleChange} required fullWidth />
         {error && <Typography color="error" textAlign="center">{error}</Typography>}
         <Box display="flex" gap={2} justifyContent="center">
@@ -163,12 +185,27 @@ function ResponsiveNavbar({ setPage, onLogin, onLogout, isLoggedIn, onShowLogin 
   ];
   if (isLoggedIn) navItems.push({ label: 'Live CCTV', page: 'livecctv' });
 
-  function handleLoginLogout() {
+  function blurActiveElement() {
+    if (document.activeElement && typeof document.activeElement.blur === 'function') {
+      document.activeElement.blur();
+    }
+  }
+
+  function handleLoginLogout(e) {
+    blurActiveElement();
+    setDrawerOpen(false); // Ensure drawer closes on login/logout
     if (isLoggedIn) {
       onLogout();
     } else {
-      onShowLogin();
+      // Use setPage to go to login page and trigger focus logic
+      setPage('login', 'login');
     }
+  }
+
+  function handleNav(page, e) {
+    blurActiveElement();
+    setPage(page, page === 'login' ? 'login' : 'body');
+    setDrawerOpen(false);
   }
 
   return (
@@ -183,7 +220,7 @@ function ResponsiveNavbar({ setPage, onLogin, onLogout, isLoggedIn, onShowLogin 
           Akshay Kalash
         </Typography>
         {!isMobile && navItems.map(item => (
-          <Button key={item.page} color="primary" onClick={() => setPage(item.page)} sx={{ mx: 1 }}>
+          <Button key={item.page} color="primary" onClick={e => handleNav(item.page, e)} sx={{ mx: 1 }}>
             {item.label}
           </Button>
         ))}
@@ -192,10 +229,10 @@ function ResponsiveNavbar({ setPage, onLogin, onLogout, isLoggedIn, onShowLogin 
         </IconButton>
       </Toolbar>
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <Box sx={{ width: 220 }} role="presentation" onClick={() => setDrawerOpen(false)}>
+        <Box sx={{ width: 220 }} role="presentation">
           <List>
             {navItems.map(item => (
-              <ListItem button key={item.page} onClick={() => setPage(item.page)}>
+              <ListItem button key={item.page} onClick={e => handleNav(item.page, e)}>
                 <ListItemText primary={item.label} />
               </ListItem>
             ))}
@@ -248,6 +285,7 @@ function App() {
   const [page, setPage] = useState('home');
   const [showLogin, setShowLogin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const pageBodyRef = React.useRef(null);
 
   function handleLogin() {
     setIsLoggedIn(true);
@@ -258,27 +296,49 @@ function App() {
     setPage('home');
   }
 
+  // Always allow navigation, even when login page is open
+  function handleSetPage(newPage, focusTarget) {
+    if (newPage === 'login') {
+      setShowLogin(true);
+      setPage('home'); // Keep page as home, but show login
+    } else {
+      setPage(newPage);
+      setShowLogin(false);
+    }
+    // Focus management: focus page body unless login
+    setTimeout(() => {
+      if (focusTarget === 'login') {
+        // Let LoginForm handle its own focus
+        return;
+      }
+      if (pageBodyRef.current) {
+        pageBodyRef.current.tabIndex = -1;
+        pageBodyRef.current.focus();
+      }
+    }, 0);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth={false} disableGutters sx={{ width: '100vw', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', px: { xs: 0, md: 0 } }}>
         <ResponsiveNavbar
-          setPage={setPage}
+          setPage={(p) => handleSetPage(p, p === 'login' ? 'login' : 'body')}
           onLogin={handleLogin}
           onLogout={handleLogout}
           isLoggedIn={isLoggedIn}
-          onShowLogin={() => { if (!isLoggedIn) setShowLogin(true); }}
+          onShowLogin={() => { if (!isLoggedIn) handleSetPage('login', 'login'); }}
         />
         {showLogin ? (
           <LoginForm onBack={() => setShowLogin(false)} onLogin={handleLogin} />
         ) : (
-          <>
-            <HeroBanner onDonateClick={() => setPage('donate')} />
+          <Box ref={pageBodyRef} tabIndex={-1} sx={{ outline: 'none' }}>
+            <HeroBanner onDonateClick={() => handleSetPage('donate', 'body')} />
             {page === 'home' && <Home />}
             {page === 'gallery' && <Gallery />}
             {page === 'contact' && <Contact />}
             {page === 'donate' && <DonationForm />}
             {page === 'livecctv' && isLoggedIn && <LiveCCTV />}
-          </>
+          </Box>
         )}
         <Footer />
       </Container>
