@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, Container, Box, Grid, IconButton, Drawer, List, ListItem, ListItemText, TextField, useMediaQuery } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -52,10 +54,11 @@ function Gallery() {
           <Box component="img" src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80" alt="Happy Girl Smiling" sx={{ width: '100%', borderRadius: 2, boxShadow: 1, display: 'block' }} loading="lazy" />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
-          <Box component="video" controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" sx={{ width: '100%', borderRadius: 2, boxShadow: 1, display: 'block' }}>
+          {/* Use a plain video tag for compatibility */}
+          <video controls poster="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" style={{ width: '100%', borderRadius: 8, boxShadow: '2px 2px 8px #ccc', display: 'block' }}>
             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
             Sorry, your browser does not support embedded videos.
-          </Box>
+          </video>
         </Grid>
       </Grid>
     </Box>
@@ -105,34 +108,38 @@ function DonationForm() {
   );
 }
 
-function LoginForm({ onBack }) {
+function LoginForm({ onBack, onLogin }) {
   const [form, setForm] = useState({ email: '', password: '' });
-  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError('');
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    setSubmitted(true);
+    // Accept any valid email and non-empty password
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
+    if (emailValid && form.password) {
+      onLogin();
+    } else {
+      setError('Please enter a valid email and password.');
+    }
   }
 
   return (
     <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, maxWidth: 400, mx: 'auto', my: 6 }}>
       <Typography variant="h4" mb={2}>User Login</Typography>
-      {submitted ? (
-        <Typography color="primary" fontWeight={600} textAlign="center">Login successful!</Typography>
-      ) : (
-        <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
-          <TextField name="email" label="Email" type="email" value={form.email} onChange={handleChange} required fullWidth />
-          <TextField name="password" label="Password" type="password" value={form.password} onChange={handleChange} required fullWidth />
-          <Box display="flex" gap={2} justifyContent="center">
-            <Button type="submit" variant="contained" color="primary">Login</Button>
-            <Button type="button" variant="outlined" color="secondary" onClick={onBack}>Back</Button>
-          </Box>
+      <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
+        <TextField name="email" label="Email" type="email" value={form.email} onChange={handleChange} required fullWidth />
+        <TextField name="password" label="Password" type="password" value={form.password} onChange={handleChange} required fullWidth />
+        {error && <Typography color="error" textAlign="center">{error}</Typography>}
+        <Box display="flex" gap={2} justifyContent="center">
+          <Button type="submit" variant="contained" color="primary">Login</Button>
+          <Button type="button" variant="outlined" color="secondary" onClick={onBack}>Back</Button>
         </Box>
-      )}
+      </Box>
     </Box>
   );
 }
@@ -145,7 +152,7 @@ function Footer() {
   );
 }
 
-function ResponsiveNavbar({ setPage, onLogin }) {
+function ResponsiveNavbar({ setPage, onLogin, onLogout, isLoggedIn, onShowLogin }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navItems = [
@@ -154,6 +161,15 @@ function ResponsiveNavbar({ setPage, onLogin }) {
     { label: 'Contact', page: 'contact' },
     { label: 'Donate', page: 'donate' },
   ];
+  if (isLoggedIn) navItems.push({ label: 'Live CCTV', page: 'livecctv' });
+
+  function handleLoginLogout() {
+    if (isLoggedIn) {
+      onLogout();
+    } else {
+      onShowLogin();
+    }
+  }
 
   return (
     <AppBar position="static" color="inherit" elevation={1} sx={{ mb: 2 }}>
@@ -171,9 +187,9 @@ function ResponsiveNavbar({ setPage, onLogin }) {
             {item.label}
           </Button>
         ))}
-        <Button color="secondary" variant="contained" onClick={onLogin} sx={{ ml: 2 }}>
-          Login
-        </Button>
+        <IconButton color="secondary" onClick={handleLoginLogout} sx={{ ml: 2 }} aria-label={isLoggedIn ? 'Logout' : 'Login'}>
+          {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
+        </IconButton>
       </Toolbar>
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 220 }} role="presentation" onClick={() => setDrawerOpen(false)}>
@@ -183,8 +199,9 @@ function ResponsiveNavbar({ setPage, onLogin }) {
                 <ListItemText primary={item.label} />
               </ListItem>
             ))}
-            <ListItem button onClick={onLogin}>
-              <ListItemText primary="Login" />
+            <ListItem button onClick={handleLoginLogout}>
+              <ListItemText primary={isLoggedIn ? 'Logout' : 'Login'} />
+              {isLoggedIn ? <LogoutIcon color="secondary" /> : <LoginIcon color="secondary" />}
             </ListItem>
           </List>
         </Box>
@@ -193,16 +210,66 @@ function ResponsiveNavbar({ setPage, onLogin }) {
   );
 }
 
+function LiveCCTV() {
+  // Use YouTube embed with autoplay, mute, and modestbranding for best compatibility
+  // Use enablejsapi=1 to allow programmatic control if needed in the future
+  return (
+    <Box sx={{ bgcolor: '#fff', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3, textAlign: 'center' }}>
+      <Typography variant="h4" mb={2}>Live CCTV</Typography>
+      <Typography mb={2}>Below is a free public live CCTV stream for demonstration purposes.</Typography>
+      <Box sx={{ position: 'relative', width: '100%', maxWidth: 600, mx: 'auto', pt: '56.25%' }}>
+        <iframe
+          src="https://www.youtube.com/embed/rnXIjl_Rzy4?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&controls=1&enablejsapi=1"
+          title="Live CCTV Stream"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          frameBorder="0"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: 0,
+            borderRadius: 8,
+            boxShadow: '2px 2px 8px #ccc',
+            background: '#000',
+          }}
+        ></iframe>
+      </Box>
+      <Typography variant="caption" color="text.secondary">
+        Source: YouTube - Live Stream
+      </Typography>
+    </Box>
+  );
+}
+
 function App() {
   const [page, setPage] = useState('home');
   const [showLogin, setShowLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  function handleLogin() {
+    setIsLoggedIn(true);
+    setShowLogin(false);
+  }
+  function handleLogout() {
+    setIsLoggedIn(false);
+    setPage('home');
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth={false} disableGutters sx={{ width: '100vw', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', px: { xs: 0, md: 0 } }}>
-        <ResponsiveNavbar setPage={setPage} onLogin={() => setShowLogin(true)} />
+        <ResponsiveNavbar
+          setPage={setPage}
+          onLogin={handleLogin}
+          onLogout={handleLogout}
+          isLoggedIn={isLoggedIn}
+          onShowLogin={() => { if (!isLoggedIn) setShowLogin(true); }}
+        />
         {showLogin ? (
-          <LoginForm onBack={() => setShowLogin(false)} />
+          <LoginForm onBack={() => setShowLogin(false)} onLogin={handleLogin} />
         ) : (
           <>
             <HeroBanner onDonateClick={() => setPage('donate')} />
@@ -210,6 +277,7 @@ function App() {
             {page === 'gallery' && <Gallery />}
             {page === 'contact' && <Contact />}
             {page === 'donate' && <DonationForm />}
+            {page === 'livecctv' && isLoggedIn && <LiveCCTV />}
           </>
         )}
         <Footer />
