@@ -1,6 +1,14 @@
+// Home.jsx
+// About Us page for the Akshay Kalash NGO website.
+// Describes the mission and vision of the NGO.
+
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
+/**
+ * Home/About Us page component.
+ * Shows a description of the NGO's mission and work.
+ */
 export default function Home() {
   return (
     <Box sx={{ bgcolor: '#eafbe7', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3 }}>

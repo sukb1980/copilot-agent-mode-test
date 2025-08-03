@@ -1,6 +1,14 @@
+// LiveCCTV.jsx
+// Live CCTV page for the Akshay Kalash NGO website.
+// Shows a responsive YouTube live stream embed, only accessible after login.
+
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
+/**
+ * LiveCCTV component.
+ * Embeds a responsive YouTube live stream for demonstration.
+ */
 export default function LiveCCTV() {
   return (
     <Box sx={{ bgcolor: '#fff', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3, textAlign: 'center' }}>

@@ -1,7 +1,12 @@
+// DonationForm.jsx
+// Donation page and payment form for the Akshay Kalash NGO website.
+// Handles donation input, payment via Razorpay, and PDF receipt generation.
+
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, TextField, Button, CircularProgress } from '@mui/material';
 import jsPDF from 'jspdf';
 
+// Dynamically load Razorpay script
 function loadRazorpayScript() {
   return new Promise((resolve) => {
     if (window.Razorpay) return resolve(true);
@@ -13,6 +18,14 @@ function loadRazorpayScript() {
   });
 }
 
+/**
+ * DonationForm component.
+ * Handles donation form, payment, and PDF receipt.
+ * - Only allows integer INR amounts
+ * - Integrates Razorpay for payment
+ * - Generates PDF receipt after payment
+ * - Resets state on navigation/refresh
+ */
 export default function DonationForm() {
   const [form, setForm] = useState({ name: '', address: '', phone: '', email: '', amount: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -26,6 +39,7 @@ export default function DonationForm() {
     setForm({ name: '', address: '', phone: '', email: '', amount: '' });
   }, []);
 
+  // Handle input changes
   function handleChange(e) {
     let { name, value } = e.target;
     if (name === 'amount') {
@@ -34,6 +48,7 @@ export default function DonationForm() {
     setForm({ ...form, [name]: value });
   }
 
+  // Generate PDF receipt after payment
   function generatePDF() {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -50,6 +65,7 @@ export default function DonationForm() {
     setSubmitted(true);
   }
 
+  // Handle payment via Razorpay
   async function handlePayment(e) {
     e.preventDefault();
     if (!form.amount || isNaN(form.amount) || parseInt(form.amount) < 1) return;

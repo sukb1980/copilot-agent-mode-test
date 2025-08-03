@@ -1,12 +1,26 @@
+// LoginForm.jsx
+// Login form for the Akshay Kalash NGO website.
+// Handles user login with email and password validation.
+
 import React, { useRef, useEffect, useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
 
+/**
+ * LoginForm component.
+ * Handles user login with email and password fields.
+ * - Auto-focuses email field on mount
+ * - Validates email and password
+ * - Calls onLogin on success, onBack to cancel
+ * @param {function} onBack - Callback for Back button
+ * @param {function} onLogin - Callback for successful login
+ */
 export default function LoginForm({ onBack, onLogin }) {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const emailRef = useRef(null);
 
   useEffect(() => {
+    // Blur any active element before focusing email
     if (document.activeElement && typeof document.activeElement.blur === 'function') {
       document.activeElement.blur();
     }
@@ -17,11 +31,13 @@ export default function LoginForm({ onBack, onLogin }) {
     }, 100);
   }, []);
 
+  // Handle input changes
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError('');
   }
 
+  // Handle form submit
   function handleSubmit(e) {
     e.preventDefault();
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);

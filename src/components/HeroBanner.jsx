@@ -1,6 +1,15 @@
+// HeroBanner.jsx
+// Hero banner for the Akshay Kalash NGO website.
+// Displays a prominent message and a donation call-to-action button.
+
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 
+/**
+ * HeroBanner component.
+ * Shows the main message and a Donate Now button.
+ * @param {function} onDonateClick - Callback for the Donate button
+ */
 export default function HeroBanner({ onDonateClick }) {
   return (
     <Box sx={{ bgcolor: 'primary.main', color: '#fff', py: 6, borderRadius: '0 0 24px 24px', textAlign: 'center', boxShadow: 3, mb: 3 }}>

@@ -1,12 +1,26 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button, Drawer, List, ListItem, ListItemText, useMediaQuery, Box } from '@mui/material';
+// ResponsiveNavbar.jsx
+// Responsive navigation bar for the Akshay Kalash NGO website.
+// Handles navigation, login/logout, and drawer menu for mobile.
+
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import theme from '../theme';
 
+/**
+ * ResponsiveNavbar component.
+ * Shows navigation links, login/logout, and a drawer menu for mobile.
+ * @param {function} setPage - Callback to set the current page
+ * @param {function} onLogin - Callback for login
+ * @param {function} onLogout - Callback for logout
+ * @param {boolean} isLoggedIn - User authentication state
+ * @param {function} onShowLogin - Callback to show login form
+ */
 export default function ResponsiveNavbar({ setPage, onLogin, onLogout, isLoggedIn, onShowLogin }) {
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navItems = [
     { label: 'Home', page: 'home' },
@@ -16,12 +30,14 @@ export default function ResponsiveNavbar({ setPage, onLogin, onLogout, isLoggedI
   ];
   if (isLoggedIn) navItems.push({ label: 'Live CCTV', page: 'livecctv' });
 
+  // Blur active element for accessibility
   function blurActiveElement() {
     if (document.activeElement && typeof document.activeElement.blur === 'function') {
       document.activeElement.blur();
     }
   }
 
+  // Handle login/logout button
   function handleLoginLogout(e) {
     blurActiveElement();
     setDrawerOpen(false); // Ensure drawer closes on login/logout
@@ -32,6 +48,7 @@ export default function ResponsiveNavbar({ setPage, onLogin, onLogout, isLoggedI
     }
   }
 
+  // Handle navigation
   function handleNav(page, e) {
     blurActiveElement();
     setPage(page, page === 'login' ? 'login' : 'body');
