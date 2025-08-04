@@ -8,6 +8,8 @@ import React, { useRef } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ImageCarousel from './ImageCarousel';
+import { galleryImages } from '../assets/CarouselImages';
 
 // List of gallery images (Unsplash, royalty-free)
 const imageItems = [
@@ -112,35 +114,38 @@ function Carousel({ items, renderItem }) {
  */
 export default function Gallery() {
   return (
-    <Box sx={{ bgcolor: '#fff', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3 }}>
-      <Typography variant="h4" mb={2}>Gallery</Typography>
-      <Typography variant="h6" mb={1}>Photos</Typography>
-      <Carousel
-        items={imageItems}
-        renderItem={(item) => (
-          <Box component="img" src={item.src} alt={item.alt} sx={{ width: '100%', borderRadius: 2, objectFit: 'cover', height: 200 }} loading="lazy" />
-        )}
-      />
-      <Typography variant="h6" mb={1} mt={3}>Videos</Typography>
-      <Carousel
-        items={videoItems}
-        renderItem={(item) => (
-          <video
-            controls
-            poster={item.poster}
-            style={{ width: '100%', borderRadius: 8, height: 200, background: '#000' }}
-            aria-label={item.alt}
-            preload="none"
-            tabIndex={0}
-          >
-            <source src={item.src} type={item.type || 'video/mp4'} />
-            Sorry, your browser does not support embedded videos.
-          </video>
-        )}
-      />
-      <Typography variant="body2" color="text.secondary" mt={2} textAlign="center">
-        Swipe left/right or use arrows to browse more images and videos
-      </Typography>
+    <Box>
+      <ImageCarousel images={galleryImages} height={340} borderRadius={16} />
+      <Box sx={{ bgcolor: '#fff', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3 }}>
+        <Typography variant="h4" mb={2}>Gallery</Typography>
+        <Typography variant="h6" mb={1}>Photos</Typography>
+        <Carousel
+          items={imageItems}
+          renderItem={(item) => (
+            <Box component="img" src={item.src} alt={item.alt} sx={{ width: '100%', borderRadius: 2, objectFit: 'cover', height: 200 }} loading="lazy" />
+          )}
+        />
+        <Typography variant="h6" mb={1} mt={3}>Videos</Typography>
+        <Carousel
+          items={videoItems}
+          renderItem={(item) => (
+            <video
+              controls
+              poster={item.poster}
+              style={{ width: '100%', borderRadius: 8, height: 200, background: '#000' }}
+              aria-label={item.alt}
+              preload="none"
+              tabIndex={0}
+            >
+              <source src={item.src} type={item.type || 'video/mp4'} />
+              Sorry, your browser does not support embedded videos.
+            </video>
+          )}
+        />
+        <Typography variant="body2" color="text.secondary" mt={2} textAlign="center">
+          Swipe left/right or use arrows to browse more images and videos
+        </Typography>
+      </Box>
     </Box>
   );
 }
