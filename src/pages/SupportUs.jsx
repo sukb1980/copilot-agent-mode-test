@@ -1,7 +1,16 @@
 // SupportUs.jsx
-// Support Us page for the NGO, inspired by ABWU.
+// Support Us page for the Akshay Kalash NGO website.
+// Explains ways to support the NGO, including donations and volunteering.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
+
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+
+/**
+ * SupportUs page component
+ * Shows information about supporting the NGO, including donation and volunteer options.
+ * @returns {JSX.Element} The rendered Support Us page
+ */
 
 export default function SupportUs() {
   return (

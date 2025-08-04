@@ -1,9 +1,13 @@
 // theme.js
-// Material-UI theme configuration for the Akshay Kalash NGO website.
-// Sets up primary/secondary colors and typography for a modern, empathetic look.
+// Custom Material UI theme for the Akshay Kalash NGO website.
+// Defines color palette, typography, and component overrides for a modern, accessible, and empathetic look inspired by ABWU.
 
 import { createTheme } from '@mui/material/styles';
 
+/**
+ * Custom MUI theme object
+ * @type {import('@mui/material').Theme}
+ */
 const theme = createTheme({
   palette: {
     primary: { main: '#1b5e20', contrastText: '#fff' }, // Deep green

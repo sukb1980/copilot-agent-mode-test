@@ -1,7 +1,7 @@
 // App.jsx
 // Main application component for the Akshay Kalash NGO website.
 // Handles routing, authentication state, and renders the main layout and all feature pages.
-// Uses Material-UI for styling and theming.
+// Uses Material-UI for styling and theming. Follows modern, accessible, and empathetic design inspired by ABWU.
 
 import React, { useState } from 'react';
 import { ThemeProvider, Container, Box } from '@mui/material';
@@ -41,13 +41,18 @@ import blogs from './pages/blogData';
 /**
  * Main App component for the NGO website.
  * Handles navigation, login/logout, and renders all feature pages.
+ * Uses React Router for URL-based routing and Material UI for theming.
+ * @returns {JSX.Element} The rendered App with all routes and layout.
  */
 function App() {
   // User authentication state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
-  // For BlogDetail routing
+  /**
+   * Wrapper for BlogDetail to extract blog id from URL and pass the blog object
+   * @returns {JSX.Element} BlogDetail page for the selected blog post
+   */
   function BlogDetailWrapper() {
     const { id } = useParams();
     const blog = blogs.find(b => b.id === parseInt(id, 10));
@@ -59,7 +64,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Container maxWidth={false} disableGutters sx={{ width: '100vw', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', px: { xs: 0, md: 0 } }}>
+          {/* Responsive navigation bar with login/logout and menu */}
           <ResponsiveNavbar isLoggedIn={isLoggedIn} onLogin={() => setIsLoggedIn(true)} onLogout={() => setIsLoggedIn(false)} />
+          {/* Main content area with hero banner and routed pages */}
           <Box tabIndex={-1} sx={{ outline: 'none' }}>
             <HeroBanner onDonateClick={() => window.location.assign('/donate')} />
             <Routes>
@@ -92,7 +99,7 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Box>
-          {/* Footer */}
+          {/* Footer with contact info and copyright */}
           <Box component="footer" sx={{
             bgcolor: '#bfa14a',
             color: '#fff',

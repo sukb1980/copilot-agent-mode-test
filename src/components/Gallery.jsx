@@ -1,8 +1,17 @@
-// Gallery.jsx
-// This component displays a horizontally scrollable carousel for images and another for videos.
-// The image carousel shows photos of girls and support groups.
-// The video carousel shows sample videos (can be replaced with real NGO event videos).
-// Both carousels are accessible and support swipe/arrow navigation.
+/**
+ * Gallery.jsx
+ *
+ * Gallery page for the Akshay Kalash NGO website.
+ * Displays a hero image carousel, a horizontally scrollable image carousel, and a video carousel.
+ * The image carousel shows photos of girls and support groups (royalty-free Unsplash images).
+ * The video carousel shows sample public domain videos (can be replaced with real NGO event videos).
+ * Both carousels are accessible and support swipe/arrow navigation.
+ * Modern, accessible, and empathetic design inspired by ABWU.
+ *
+ * @fileoverview Gallery page with image and video carousels, styled and documented for accessibility and maintainability.
+ * @module components/Gallery
+ * @author Akshay Kalash NGO
+ */
 
 import React, { useRef } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
@@ -39,12 +48,18 @@ const videoItems = [
 
 /**
  * Carousel component for horizontal scrolling of items (images/videos)
- * @param {Array} items - List of items to display
- * @param {Function} renderItem - Function to render each item
+ *
+ * @param {Object} props - Component props
+ * @param {Array} props.items - List of items to display
+ * @param {Function} props.renderItem - Function to render each item
+ * @returns {JSX.Element} The rendered carousel
  */
 function Carousel({ items, renderItem }) {
   const scrollRef = useRef(null);
-  // Scrolls the carousel by a given offset
+  /**
+   * Scrolls the carousel by a given offset
+   * @param {number} offset - The number of pixels to scroll horizontally
+   */
   const scroll = (offset) => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: offset, behavior: 'smooth' });
@@ -109,13 +124,18 @@ function Carousel({ items, renderItem }) {
 }
 
 /**
- * Gallery component for the NGO website
- * Shows a horizontally scrollable image carousel and a video carousel
+ * Gallery component for the NGO website.
+ * Shows a hero image carousel, a horizontally scrollable image carousel, and a video carousel.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Gallery page.
  */
 export default function Gallery() {
   return (
     <Box>
+      {/* Hero image carousel */}
       <ImageCarousel images={galleryImages} height={340} borderRadius={16} />
+      {/* Main gallery content */}
       <Box sx={{ bgcolor: '#fff', borderRadius: 3, boxShadow: 2, p: { xs: 2, md: 4 }, mb: 3 }}>
         <Typography variant="h4" mb={2}>Gallery</Typography>
         <Typography variant="h6" mb={1}>Photos</Typography>

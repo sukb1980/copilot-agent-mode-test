@@ -1,18 +1,18 @@
 // LoginForm.jsx
-// Login form for the Akshay Kalash NGO website.
-// Handles user login with email and password validation.
+// Login form component for the Akshay Kalash NGO website.
+// Handles user authentication for accessing gated features (e.g., Live CCTV).
+// Follows accessible, modern, and empathetic design inspired by ABWU.
 
 import React, { useRef, useEffect, useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
 
 /**
- * LoginForm component.
- * Handles user login with email and password fields.
- * - Auto-focuses email field on mount
- * - Validates email and password
- * - Calls onLogin on success, onBack to cancel
- * @param {function} onBack - Callback for Back button
- * @param {function} onLogin - Callback for successful login
+ * LoginForm component
+ * Renders a login form for user authentication.
+ * @param {Object} props
+ * @param {Function} props.onLogin - Callback for successful login
+ * @param {Function} props.onBack - Callback for cancel/back action
+ * @returns {JSX.Element} The rendered login form
  */
 export default function LoginForm({ onBack, onLogin }) {
   const [form, setForm] = useState({ email: '', password: '' });

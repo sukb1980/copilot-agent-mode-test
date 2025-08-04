@@ -1,7 +1,16 @@
 // CaseHistory.jsx
-// Case History page for the NGO, inspired by ABWU.
+// Case History page for the Akshay Kalash NGO website.
+// Displays case studies and stories of impact from the NGO's work.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
+
 import React from 'react';
 import { Box, Typography, Card, CardContent, Grid } from '@mui/material';
+
+/**
+ * CaseHistory page component
+ * Shows case studies and stories of impact from the NGO's work.
+ * @returns {JSX.Element} The rendered Case History page
+ */
 
 const cases = [
   {

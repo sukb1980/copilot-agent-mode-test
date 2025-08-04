@@ -1,9 +1,18 @@
 // Blog.jsx
-// Blog listing page styled like ABWU's blog_listing.html
+// Blog listing page for the Akshay Kalash NGO website.
+// Displays a list of blog posts with excerpts and links to detail pages.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
+
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent, CardActions, Button } from '@mui/material';
 import blogs from './blogData';
 import { Link as RouterLink } from 'react-router-dom';
+
+/**
+ * Blog page component
+ * Shows a list of blog posts with title, date, excerpt, and a Read More button.
+ * @returns {JSX.Element} The rendered Blog listing page
+ */
 
 export default function Blog() {
   return (

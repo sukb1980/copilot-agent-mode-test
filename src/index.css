@@ -1,4 +1,7 @@
-/* index.css for base styles and accessibility */
+/* index.css */
+/* Global CSS styles for the Akshay Kalash NGO website. */
+/* Applies base styles, resets, and font imports for a modern, accessible look. */
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

@@ -1,9 +1,18 @@
 // AboutUs.jsx
-// About Us main page for the NGO, inspired by ABWU.
+// About Us page for the Akshay Kalash NGO website.
+// Displays information about the NGO's mission, vision, and team, with an image carousel.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
+
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import ImageCarousel from '../components/ImageCarousel';
 import { aboutImages } from '../assets/CarouselImages';
+
+/**
+ * AboutUs page component
+ * Shows an image carousel and detailed information about the NGO.
+ * @returns {JSX.Element} The rendered About Us page
+ */
 
 export default function AboutUs() {
   return (

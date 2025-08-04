@@ -1,6 +1,7 @@
 // ResponsiveNavbar.jsx
 // Responsive navigation bar for the Akshay Kalash NGO website.
 // Handles navigation, login/logout, and drawer menu for mobile.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
 
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, Box, Divider, Menu, MenuItem } from '@mui/material';
@@ -61,12 +62,13 @@ const aboutMenuItems = [
 ];
 
 /**
- * ResponsiveNavbar component.
+ * ResponsiveNavbar component
  * Shows navigation links, login/logout, and a drawer menu for mobile.
- * @param {function} onLogin - Callback for login
- * @param {function} onLogout - Callback for logout
- * @param {boolean} isLoggedIn - User authentication state
- * @param {function} onShowLogin - Callback to show login form
+ * @param {Object} props
+ * @param {Function} props.onLogin - Callback for login
+ * @param {Function} props.onLogout - Callback for logout
+ * @param {boolean} props.isLoggedIn - User authentication state
+ * @returns {JSX.Element} The rendered navigation bar
  */
 export default function ResponsiveNavbar({ isLoggedIn, onLogin, onLogout }) {
   const [drawerOpen, setDrawerOpen] = useState(false);

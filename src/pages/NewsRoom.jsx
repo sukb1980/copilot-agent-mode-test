@@ -1,7 +1,16 @@
 // NewsRoom.jsx
-// News Room page for the NGO, inspired by ABWU.
+// News Room page for the Akshay Kalash NGO website.
+// Displays news articles, press releases, and media coverage about the NGO.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
+
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
+
+/**
+ * NewsRoom page component
+ * Shows news articles and media coverage about the NGO.
+ * @returns {JSX.Element} The rendered News Room page
+ */
 
 const projects = [
   {

@@ -1,6 +1,12 @@
 // blogData.js
-// Centralized blog data for the NGO website
+// Centralized blog post data for the Akshay Kalash NGO website.
+// Each blog post includes id, title, date, excerpt, and body.
+// Used for dynamic blog listing and detail pages.
 
+/**
+ * Array of blog post objects
+ * @type {Array<{id: number, title: string, date: string, excerpt: string, body: string}>}
+ */
 const blogs = [
   {
     id: 0,

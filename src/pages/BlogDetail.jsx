@@ -1,8 +1,19 @@
 // BlogDetail.jsx
-// Blog detail page styled like ABWU's blog_listing_inner.html
+// Blog detail page for the Akshay Kalash NGO website.
+// Displays the full content of a single blog post, styled for readability.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
+
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 
+/**
+ * BlogDetail page component
+ * Shows the full content of a single blog post, with a back button.
+ * @param {Object} props
+ * @param {Object} props.blog - The blog post object to display
+ * @param {Function} props.onBack - Callback for the back button
+ * @returns {JSX.Element} The rendered Blog Detail page
+ */
 export default function BlogDetail({ blog, onBack }) {
   // Fallback content if blog prop is not provided
   if (!blog) {

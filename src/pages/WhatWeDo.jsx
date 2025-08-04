@@ -1,9 +1,18 @@
 // WhatWeDo.jsx
-// What We Do main page for the NGO, inspired by ABWU.
+// What We Do page for the Akshay Kalash NGO website.
+// Describes the NGO's programs and services, with an image carousel.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
+
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import ImageCarousel from '../components/ImageCarousel';
 import { whatWeDoImages } from '../assets/CarouselImages';
+
+/**
+ * WhatWeDo page component
+ * Shows an image carousel and details about the NGO's work and impact.
+ * @returns {JSX.Element} The rendered What We Do page
+ */
 
 export default function WhatWeDo() {
   return (

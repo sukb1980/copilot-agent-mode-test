@@ -1,6 +1,7 @@
 // Home.jsx
-// About Us page for the Akshay Kalash NGO website.
-// Describes the mission and vision of the NGO.
+// Home page for the Akshay Kalash NGO website.
+// Displays a hero image carousel and introductory content about the NGO's mission and impact.
+// Follows accessible, modern, and empathetic design inspired by ABWU.
 
 import React from 'react';
 import { Box, Typography } from '@mui/material';
@@ -8,8 +9,9 @@ import ImageCarousel from '../components/ImageCarousel';
 import { heroImages } from '../assets/CarouselImages';
 
 /**
- * Home/About Us page component.
- * Shows a description of the NGO's mission and work.
+ * Home page component
+ * Shows a hero image carousel and introductory information about the NGO.
+ * @returns {JSX.Element} The rendered Home page
  */
 export default function Home() {
   return (

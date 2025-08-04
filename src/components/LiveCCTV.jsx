@@ -1,13 +1,15 @@
 // LiveCCTV.jsx
-// Live CCTV page for the Akshay Kalash NGO website.
-// Shows a responsive YouTube live stream embed, only accessible after login.
+// Live CCTV component for the Akshay Kalash NGO website.
+// Displays a gated YouTube live stream for authorized users (after login).
+// Follows accessible, modern, and empathetic design inspired by ABWU.
 
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 /**
- * LiveCCTV component.
- * Embeds a responsive YouTube live stream for demonstration.
+ * LiveCCTV component
+ * Shows a YouTube live stream (CCTV) for logged-in users only.
+ * @returns {JSX.Element} The rendered CCTV live stream
  */
 export default function LiveCCTV() {
   return (
