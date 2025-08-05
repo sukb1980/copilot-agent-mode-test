@@ -170,8 +170,37 @@ export default function ResponsiveNavbar({ isLoggedIn, onLogin, onLogout }) {
           </Box>
           <Divider />
           <List>
-            {navItems.map(item => (
-              <ListItem button key={item.page} component={RouterLink} to={`/${item.page}`}>
+            {/* About Us submenu for mobile */}
+            <ListItem
+              button
+              key="aboutus"
+              onClick={() => setDrawerOpen(open => !open)}
+              sx={{ pl: 2 }}
+            >
+              <ListItemText primary="About Us" primaryTypographyProps={{ sx: { fontFamily: 'Merriweather, serif', color: '#1b5e20', fontWeight: 600 } }} />
+            </ListItem>
+            {/* Render About Us submenus indented under About Us */}
+            {drawerOpen && aboutMenuItems.map(item => (
+              <ListItem
+                button
+                key={item.page}
+                component={RouterLink}
+                to={`/${item.page}`}
+                onClick={() => setDrawerOpen(false)}
+                sx={{ pl: 4 }}
+              >
+                <ListItemText primary={item.label} primaryTypographyProps={{ sx: { fontFamily: 'Merriweather, serif', color: '#388e3c', fontWeight: 600 } }} />
+              </ListItem>
+            ))}
+            {/* Other nav items except About Us */}
+            {navItems.filter(item => item.label !== 'About Us').map(item => (
+              <ListItem 
+                button 
+                key={item.page} 
+                component={RouterLink} 
+                to={`/${item.page}`}
+                onClick={() => setDrawerOpen(false)}
+              >
                 <ListItemText primary={item.label} primaryTypographyProps={{ sx: { fontFamily: 'Merriweather, serif', color: '#1b5e20', fontWeight: 600 } }} />
               </ListItem>
             ))}

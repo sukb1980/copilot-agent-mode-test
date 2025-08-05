@@ -4,16 +4,20 @@
 // Follows accessible, modern, and empathetic design inspired by ABWU.
 
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, useMediaQuery } from '@mui/material';
+import theme from '../theme';
 
 /**
  * HeroBanner component
  * Shows a large banner with a headline, subheadline, and a donation button.
+ * Only visible on desktop (md and up), hidden on mobile.
  * @param {Object} props
  * @param {Function} props.onDonateClick - Callback for the donation button
- * @returns {JSX.Element} The rendered hero banner
+ * @returns {JSX.Element|null} The rendered hero banner or null on mobile
  */
 export default function HeroBanner({ onDonateClick }) {
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  if (!isDesktop) return null;
   return (
     <Box
       sx={{
