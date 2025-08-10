@@ -5,6 +5,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * LoginForm component
@@ -18,6 +19,7 @@ export default function LoginForm({ onBack, onLogin }) {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const emailRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Blur any active element before focusing email
@@ -40,12 +42,24 @@ export default function LoginForm({ onBack, onLogin }) {
   // Handle form submit
   function handleSubmit(e) {
     e.preventDefault();
+    // Check for user in localStorage
+    const users = JSON.parse(localStorage.getItem('akshaykalash_users') || '{}');
+    if (users[form.email] && users[form.email] === form.password) {
+      onLogin();
+      navigate('/aboutus');
+      return;
+    }
+    // Fallback to default validation
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
     if (emailValid && form.password) {
       onLogin();
+      navigate('/aboutus');
     } else {
       setError('Please enter a valid email and password.');
+      return;
     }
+    // If not found in users
+    setError('Invalid username or password.');
   }
 
   return (
